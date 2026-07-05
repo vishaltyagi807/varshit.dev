@@ -24,6 +24,7 @@ export const LINKS = {
   github: "https://github.com/vishaltyagi807",
   linkedin: "https://www.linkedin.com/in/varshityagi/",
   resume: "/Varshit_Tyagi_Resume.pdf",
+  web3forms_key: "bc9501ee-49cc-4956-b62a-7a4ee36357a6",
 };
 
 export const STATS = [

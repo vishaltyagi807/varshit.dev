@@ -1,10 +1,52 @@
 import { useState } from "react";
-import { Mail, Github, Linkedin, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Github, Linkedin, MapPin, ArrowRight, Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import useWeb3Forms from "@web3forms/react";
 import { LINKS } from "./constants";
 import { Section, SectionLabel } from "./section";
 
+interface ContactFormInput {
+  name: string;
+  email: string;
+  message: string;
+}
+
 export function Contact() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error" | "no-key">("idle");
+  const { register, handleSubmit, reset } = useForm<ContactFormInput>();
+
+  const key = (LINKS as any).web3forms_key || import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+  const { submit } = useWeb3Forms({
+    access_key: key || "",
+    settings: {
+      from_name: "varshit.dev Contact Form",
+      subject: `New Portfolio Submission from varshit.dev`,
+    },
+    onSuccess: () => {
+      setStatus("success");
+      reset();
+      setTimeout(() => setStatus("idle"), 5000);
+    },
+    onError: () => {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
+    },
+  });
+
+  const onSubmit = (data: ContactFormInput) => {
+    if (!key || key === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
+      setStatus("no-key");
+      setTimeout(() => setStatus("idle"), 5000);
+      return;
+    }
+    setStatus("sending");
+    submit({
+      ...data,
+      subject: `New Portfolio Submission from ${data.name}`,
+    });
+  };
+
   return (
     <Section id="contact">
       <SectionLabel
@@ -49,40 +91,41 @@ export function Contact() {
               </div>
             </div>
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-              setTimeout(() => setSent(false), 3000);
-            }}
-            className="space-y-3"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <input
               required
+              {...register("name")}
               placeholder="Your name"
               className="w-full rounded-xl border border-white/10 bg-white/4 px-4 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-white/30 focus:bg-white/6"
             />
             <input
               required
               type="email"
+              {...register("email")}
               placeholder="Email address"
               className="w-full rounded-xl border border-white/10 bg-white/4 px-4 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-white/30 focus:bg-white/6"
             />
             <textarea
               required
+              {...register("message")}
               rows={5}
               placeholder="What are we building?"
               className="w-full resize-none rounded-xl border border-white/10 bg-white/4 px-4 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-white/30 focus:bg-white/6"
             />
-            <button className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:shadow-(--shadow-glow)">
-              {sent ? (
-                "Message sent — thanks!"
-              ) : (
+            <button
+              disabled={status === "sending"}
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:shadow-(--shadow-glow) disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {status === "sending" && <Loader2 className="h-4 w-4 animate-spin" />}
+              {status === "idle" && (
                 <>
                   Send message{" "}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                 </>
               )}
+              {status === "success" && "Message sent — thanks!"}
+              {status === "error" && "Failed to send. Try again."}
+              {status === "no-key" && "Configure Web3Forms key in constants.ts!"}
             </button>
           </form>
         </div>
@@ -90,3 +133,5 @@ export function Contact() {
     </Section>
   );
 }
+
+
