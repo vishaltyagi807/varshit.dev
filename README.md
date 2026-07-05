@@ -1,4 +1,4 @@
-# 🌟 Varshit Tyagi — Professional Portfolio
+# 🌟 Varshit Tyagi — Portfolio
 
 A beautiful, premium, high-performance developer portfolio built to showcase modern software engineering craft. Built with **React 19**, **TypeScript**, **Vite**, **TanStack Router**, **Tailwind CSS v4**, and **Motion** (Framer Motion).
 
