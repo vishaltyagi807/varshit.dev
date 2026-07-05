@@ -44,9 +44,7 @@ export function Nav({ onOpenCmd }: { onOpenCmd: () => void }) {
           href="#top"
           className="mx-2 flex items-center gap-2 text-sm font-semibold tracking-tight"
         >
-          <span className="grid h-6 w-6 place-items-center rounded-md bg-linear-to-br from-[oklch(0.68_0.2_258)] to-[oklch(0.66_0.24_305)] text-[10px] text-black font-bold">
-            V
-          </span>
+          <img src="/logo.png" className="hidden sm:inline" width={24} height={24} alt="" />
           <span className="hidden sm:inline">Varshit</span>
         </a>
         <div className="mx-1 hidden h-4 w-px bg-white/10 md:block" />
