@@ -89,6 +89,37 @@ export const SKILLS = [
 
 export const PROJECTS = [
   {
+    slug: "fedmitra",
+    name: "FedMitra",
+    tagline: "Collaborative & privacy-first mental health companion using federated learning",
+    year: "May 2026",
+    role: "Full Stack & AI Developer",
+    stack: ["React 19", "FastAPI", "TensorFlow.js", "MediaPipe", "Ollama", "SQLite"],
+    accent: "from-[oklch(0.65_0.24_350)] to-[oklch(0.60_0.24_300)]",
+    icon: Brain,
+    metrics: [
+      { k: "100%", v: "On-Device Inference" },
+      { k: "≤0.005", v: "DP Noise Limit" },
+      { k: "Dual-Model", v: "Federated Learning" },
+    ],
+    highlights: [
+      "100% client-side image processing, face landmark detection and facial expression recognition using TensorFlow.js & Google MediaPipe Face Landmarker",
+      "Standardized Patient Health Questionnaire-9 (PHQ-9) assessment flow to screen for depression levels",
+      "Context-aware wellness chat powered by a local LLM (Ollama/Llama 3.1) via streaming SSE API, dynamically tailoring tone to user state",
+      "On-device collaborative training via Federated Averaging (FedAvg) and Gaussian Differential Privacy to safeguard individual user privacy",
+      "Admin dashboard with real-time WebSocket updates showcasing active client updates, training history, and configurable DP metrics",
+    ],
+    problem:
+      "Most digital mental health services rely on centralizing sensitive personal data (e.g. webcams, survey answers) on cloud servers, exposing users to serious privacy intrusions, biometric data leakage, and security breaches.",
+    solution:
+      "FedMitra shifts computation and model training directly to the user's browser. Facial expression recognition and surveys run strictly locally, and updates are securely aggregated using Federated Averaging with Gaussian Differential Privacy to prevent individual reconstruction.",
+    architecture:
+      "React UI/Webcam ↔ MediaPipe & TF.js (Local Inference) ↔ Local training & gradient weight sync ↔ FastAPI backend server weight queue ↔ Federated Averaging (FedAvg) with Gaussian Differential Privacy aggregation.",
+    image: undefined as string | undefined,
+    liveLink: undefined as string | undefined,
+    githubLink: "https://github.com/vishaltyagi807/fedmitra",
+  },
+  {
     slug: "proctor",
     name: "Proctor",
     tagline: "AI-powered student monitoring & complaint system",
